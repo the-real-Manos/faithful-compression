@@ -1,0 +1,15 @@
+harmful:
+  source: "advbench"
+  file: "data/behavioural/harmful_behaviors.csv"
+  n_items: 50
+  start_index: 0
+  id_prefix: "harm"
+jailbreak:
+  templates_file: "data/behavioural/jailbreak_templates.jsonl"
+  n_templates: 30
+  n_harmful_per_template: 5
+  harmful_indices: [0, 1, 2, 3, 4]
+  id_prefix: "jail"
+# Committed results redact generated_text to a SHA256 plus a truncated snippet.
+redact_generations: true
+redact_snippet_chars: 120

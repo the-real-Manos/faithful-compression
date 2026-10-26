@@ -1,0 +1,13 @@
+tasks:
+  gsm8k:
+    dataset: "openai/gsm8k"
+    config: "main"
+    split: "test"
+    n_items: 200
+    start_index: 0
+  arc_challenge:
+    dataset: "allenai/ai2_arc"
+    config: "ARC-Challenge"
+    split: "test"
+    n_items: 300
+    start_index: 0

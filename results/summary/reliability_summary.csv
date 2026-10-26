@@ -1,0 +1,4 @@
+precision,n_items,self_consistency_rate,self_consistency_ci_lower,self_consistency_ci_upper,texts_differ_rate
+f16,80,0.45,0.35,0.5625,1.0
+q8,80,0.4125,0.3125,0.525,1.0
+q4,80,0.325,0.225,0.425,1.0

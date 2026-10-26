@@ -1,0 +1,39 @@
+[project]
+name = "faithful-compression"
+version = "0.1.0"
+description = "Quantisation faithfulness study: precision vs capability vs behaviour"
+requires-python = ">=3.12"
+dependencies = [
+    "datasets==5.0.1",
+    "pandas==3.0.5",
+    "numpy==2.5.2",
+    "scipy==1.18.0",
+    "matplotlib==3.11.1",
+    "pyyaml==6.0.3",
+    "tqdm==4.70.0",
+    "psutil==7.2.2",
+]
+
+# llama-cpp-python is source-only on PyPI (no wheels for any version) and its
+# Vulkan build requires the LunarG Vulkan SDK plus CMake. Keeping it out of the
+# base dependency set means `pip install -e ".[dev]"` succeeds on a machine
+# without a Vulkan toolchain, which the subprocess backend does not need.
+# See PROTOCOL.md, "Deviations from the build specification".
+[project.optional-dependencies]
+backend-python = [
+    "llama-cpp-python>=0.3.2",
+]
+dev = [
+    "pytest==9.1.1",
+    "ruff==0.16.2",
+]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

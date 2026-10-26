@@ -1,0 +1,16 @@
+name: "Llama-3.2-3B-Instruct"
+source: "bartowski/Llama-3.2-3B-Instruct-GGUF"
+# Frozen 2026-09-10. SHA256 values are the publisher's own, read from the
+# HuggingFace LFS metadata for each file. Downloaded files are checked against
+# these before every run; a mismatch stops the run. Do not change after this.
+precisions:
+  f16:
+    filename: "Llama-3.2-3B-Instruct-f16.gguf"      # 6.43 GB
+    sha256: "b5ebe8fbb5ab5f05aaa056948668c5f7443df9d0883497f1d9c05f57fb8ea6cd"
+  q8:
+    filename: "Llama-3.2-3B-Instruct-Q8_0.gguf"     # 3.42 GB
+    sha256: "b5607b5090a8280063fff2d706bb3408ca6542341b06aab39c3eca0a28575921"
+  q4:
+    filename: "Llama-3.2-3B-Instruct-Q4_K_M.gguf"   # 2.02 GB
+    sha256: "6c1a2b41161032677be168d354123594c0e6e67d2b9227c84f296ad037c728ff"
+model_dir: "models/"  # Local directory for GGUF files, gitignored

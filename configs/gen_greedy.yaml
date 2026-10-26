@@ -1,0 +1,10 @@
+# Greedy decode. Used by the capability, systems and behavioural suites.
+# Every sampler is pinned explicitly: llama.cpp applies non-neutral defaults
+# (top_k=40, top_p=0.95, min_p=0.05) when a field is omitted.
+temperature: 0.0
+max_tokens: 1024
+seed: null
+stop: []
+top_p: 1.0
+top_k: -1
+min_p: 0.0

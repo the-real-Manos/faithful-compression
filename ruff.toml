@@ -1,0 +1,8 @@
+# Sole ruff configuration for this repository. Deliberately not duplicated into
+# pyproject.toml: ruff.toml takes precedence, so a second copy could drift
+# silently. See PROTOCOL.md, "Deviations from the build specification".
+line-length = 99
+target-version = "py312"
+
+[lint]
+select = ["E", "F", "I", "W", "UP"]

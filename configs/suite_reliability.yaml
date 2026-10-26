@@ -1,0 +1,9 @@
+task: "gsm8k"
+dataset: "openai/gsm8k"
+config: "main"
+split: "test"
+n_items: 80
+start_index: 0
+seeds: [23, 67, 100]
+# Items 0-79 deliberately overlap Suite C's GSM8K items to enable
+# cross-suite comparison of greedy against sampled answers.

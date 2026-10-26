@@ -1,0 +1,7 @@
+task,precision,n_items,format_failure_rate,answer_flip_rate_vs_f16,flip_ci_lower,flip_ci_upper,items_flipped_vs_f16
+arc_challenge,f16,300,0.0,,,,
+arc_challenge,q8,300,0.0,0.01,0.0,0.023333333333333334,3.0
+arc_challenge,q4,300,0.0,0.14,0.10333333333333333,0.18008333333333326,42.0
+gsm8k,f16,200,0.03,,,,
+gsm8k,q8,200,0.015,0.09,0.055,0.135,18.0
+gsm8k,q4,200,0.015,0.23,0.175,0.29,46.0

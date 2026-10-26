@@ -1,0 +1,24 @@
+# Hardware sheet. Values below marked "verified" were read from the machine on
+# 2026-08-10. Do not update the GPU driver during the study (see PROTOCOL.md).
+gpu: "AMD Radeon RX 9070 XT"        # verified: Win32_VideoController
+vram_gb: 16
+architecture: "RDNA 4 (gfx1201)"     # corrected from spec, which said gfx1150
+                                     # (gfx1150 is Strix Point's iGPU)
+os: "Windows 10 Home 10.0.19045"     # verified
+driver_version: "32.0.31021.5001"    # verified: Win32_VideoController, re-checked 2026-09-10
+backend: "llama_cpp_vulkan"
+vulkan_confirmed: true               # verified 2026-09-10: `llama-server --list-devices`
+                                     # reports Vulkan0: AMD Radeon RX 9070 XT (16304 MiB)
+
+# Pinned inference engine. Official llama.cpp release, not LM Studio's
+# auto-updating copy, so the study can be reproduced from these values.
+# Unzipped into tools/ (gitignored). Do not replace during the study.
+llama_server_path: "tools/llama.cpp/llama-server.exe"
+llama_cpp_version: "0.4.0"                # stable release v0.4.0 (2026-09-04)
+llama_cpp_build: "b10809"                 # commit 5266f24da75dc449bd56cbed7addb9c8e4a6a73e
+llama_cpp_asset: "llama-b10809-bin-win-vulkan-x64.zip"
+llama_cpp_asset_sha256: "97e50b3ef0cdd2cb4d5afd446a9006b3496bee6c0d0ba7083d32f36075771870"
+llama_cpp_asset_url: "https://github.com/ggml-org/llama.cpp/releases/download/b10809/llama-b10809-bin-win-vulkan-x64.zip"
+ctx_len: 4096
+n_gpu_layers: -1
+python_version: "3.12"               # py -3.12; note `python` on PATH is 3.11

@@ -1,0 +1,18 @@
+# Follow-up F1 (exploratory). Pre-registered in PROTOCOL.md section 14 before any run.
+# Data files are gitignored; the revision and SHA256 below pin exactly what ran.
+behaviors:
+  dataset: "JailbreakBench/JBB-Behaviors"
+  config: "behaviors"
+  revision: "886acc352a31533ffbcf4ef22c744658688086fc"
+  splits:
+    jbb_harmful: "harmful"
+    jbb_benign: "benign"
+pair:
+  set_name: "jbb_pair"
+  file: "data/behavioural/jbb/PAIR_black_box_gpt-3.5-turbo-1106.json"
+  source_url: "https://raw.githubusercontent.com/JailbreakBench/artifacts/909e68c01d94222b8ad2e397a017e2e12e2adb73/attack-artifacts/PAIR/black_box/gpt-3.5-turbo-1106.json"
+  sha256: "49e007ce488e606cede7ffc8b022e35080b7f3870956e4cb2423d9b42749c78f"
+redact_generations: true
+redact_prompts: true
+redact_snippet_chars: 120
+calibration_per_set_per_class: 5

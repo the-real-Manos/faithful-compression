@@ -1,0 +1,5 @@
+prompts_file: "data/systems/prompts.jsonl"
+warmup_runs: 2
+measured_runs: 10
+# 24 prompts (8 per length bucket) x 10 measured runs x 3 precisions
+# = 720 measured generations.

@@ -1,0 +1,31 @@
+# Virtual environments
+.venv/
+venv/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+
+# Model weights (~11.8 GB, frozen by SHA256 in configs/model_primary.yaml)
+models/*
+!models/.gitkeep
+
+# Pinned llama.cpp binary (build recorded in configs/hardware.yaml)
+tools/
+
+# AdvBench harmful requests: downloaded, not redistributed (SHA256 in README)
+data/behavioural/harmful_behaviors.csv
+
+# JailbreakBench attack prompts for follow-up F1: kept private (SHA256 in configs/suite_jbb.yaml)
+data/behavioural/jbb/
+
+# HuggingFace dataset cache, if redirected into the repo
+.hf_cache/
+
+# Anything holding full model completions to harmful prompts: raw behavioural
+# generations, the refusal calibration sample, the disagreement review. Committed
+# behavioural results carry a SHA256 and a truncated snippet instead.
+results/**/*_unredacted.*
