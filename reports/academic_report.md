@@ -166,6 +166,6 @@ against accuracy with memory encoded by marker area.
 `results/figures/fig2_disagreement.png` displays per-item answer changes by
 precision pair.
 
-**F. Provenance.** `bb4033a` protocol committed; `ea8f5eb` protocol frozen (tag
-`protocol-freeze`); `07db5b2` follow-up pre-registered; `80c3b50` final results
+**F. Provenance.** `3e3caf3` protocol committed; `4e4ae28` protocol frozen (tag
+`protocol-freeze`); `f85c13e` follow-up pre-registered; `14145ec` final results
 (tag `v1.0.0`).

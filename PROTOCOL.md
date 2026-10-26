@@ -3,7 +3,7 @@
 Pre-registration for the Faithful Compression study.
 
 **Status**: written 2026-08-10, before any model was downloaded and before any
-generation was produced, and committed as `bb4033a`. Amended on 2026-09-11 with
+generation was produced, and committed as `3e3caf3`. Amended on 2026-09-11 with
 findings from the Phase 0 smoke test and two definitional decisions, before any
 capability, reliability or behavioural result existed (section 12). Frozen at
 git tag `protocol-freeze`. Nothing in this document was written with knowledge

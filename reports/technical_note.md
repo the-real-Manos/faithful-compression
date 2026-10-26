@@ -1,7 +1,7 @@
 # Faithful Compression: what 4-bit quantisation changes beyond the average score
 
 **Llama-3.2-3B-Instruct at FP16, Q8_0 and Q4_K_M on an AMD RX 9070 XT (Vulkan).**
-Pre-registered study. Protocol: `PROTOCOL.md` (committed `bb4033a`, frozen at tag
+Pre-registered study. Protocol: `PROTOCOL.md` (committed `3e3caf3`, frozen at tag
 `protocol-freeze`). Every number below traces to a file in `results/summary/`.
 
 ## Summary
@@ -161,7 +161,7 @@ direction.
 
 ## 8. Follow-up F1: JailbreakBench (exploratory)
 
-Pre-registered in `PROTOCOL.md` section 14 (commit `07db5b2`) before any
+Pre-registered in `PROTOCOL.md` section 14 (commit `f85c13e`) before any
 generation. The main study's refusal rates were near ceiling, so F1 asks the same
 question with a second benchmark, harmless look-alike requests, and persuasive
 attacks. Corrected classifier; 861 generations.
