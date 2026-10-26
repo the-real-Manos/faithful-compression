@@ -202,3 +202,151 @@ of the prompts succeeded against the model and could be reused to cause harm.
 
 The study was run in a private repository whose full history, including the
 pre-registration commit order, is summarised in [PROVENANCE.md](PROVENANCE.md).
+
+## Results
+
+All values below are taken from `results/summary/`. Tables with every
+confidence interval are in `results/summary/report_tables.md`, and the full
+write-up is `reports/technical_note.md`. Intervals are 95 percent percentile
+bootstrap intervals over items, paired by item for every comparison with FP16.
+A difference is described as detected only when its paired interval excludes
+zero.
+
+### Summary of findings
+
+Quantising Llama-3.2-3B-Instruct from FP16 to Q4_K_M increased decode throughput
+2.4-fold and reduced GPU memory to 37 percent of the FP16 allocation. Mean
+accuracy fell by 3.5 points on GSM8K and 3.0 points on ARC-Challenge, and neither
+change is distinguishable from zero at these sample sizes. Item-level comparison
+shows that the aggregate conceals substantial instability: 23 percent of GSM8K
+answers and 14 percent of ARC-Challenge answers changed between FP16 and Q4_K_M,
+with errors introduced and errors corrected largely offsetting one another in the
+mean. Refusal behaviour did not degrade under quantisation, including under
+persuasive attack prompts. The pre-registered claim, that behavioural metrics
+would move at least as much as capability, is therefore falsified.
+
+### Systems (RQ1)
+
+| Precision | Load (s) | TTFT p50 (ms) | TTFT p95 (ms) | Decode (tokens/s) | GPU memory (MB) |
+|-----------|----------|---------------|---------------|-------------------|-----------------|
+| FP16 | 5.06 | 53.3 | 111.5 | 83.1 | 6,640 |
+| Q8_0 | 3.01 | 47.3 | 92.7 | 139.5 | 3,768 |
+| Q4_K_M | 2.02 | 49.3 | 99.5 | 201.9 | 2,430 |
+
+Decode speed scales with weight size, consistent with memory-bandwidth-bound
+generation. The KV cache (448 MB) and compute buffers (64 MB) are identical at
+every precision, so the memory saving lies entirely in the weights. Time to first
+token is largely unaffected.
+
+![Decode speed against accuracy, marker area proportional to GPU memory](results/figures/fig1_pareto.png)
+
+### Capability (RQ2)
+
+| Task | N | FP16 [CI] | Q8_0 [CI] | Q4_K_M [CI] | FP16 minus Q4 [CI] | Cohen's d |
+|------|---|-----------|-----------|-------------|--------------------|-----------|
+| GSM8K | 200 | 78.5% [72.0, 84.0] | 75.5% [69.0, 81.5] | 75.0% [69.0, 80.5] | +3.5 pts [-2.0, +8.5] | 0.09 |
+| ARC-Challenge | 300 | 70.7% [65.7, 75.7] | 70.0% [65.0, 75.0] | 67.7% [62.3, 72.7] | +3.0 pts [-0.3, +6.7] | 0.09 |
+
+No FP16 to Q4_K_M drop is detected. One comparison is detected: FP16 to Q8_0 on
+GSM8K, +3.0 points [+0.5, +5.5], where Q8_0 changes few items but more of them
+from right to wrong.
+
+### Answer stability (RQ3)
+
+| Task | Same answer, FP16 and Q4 | Answer flip rate [CI] | Correctness disagreement | Items flipped |
+|------|--------------------------|-----------------------|--------------------------|---------------|
+| GSM8K | 77.0% | 23.0% [17.5, 29.0] | 14.5% | 46 of 200 |
+| ARC-Challenge | 86.0% | 14.0% [10.3, 18.0] | 10.3% | 42 of 300 |
+
+The answer flip rate counts any change in the extracted answer, including one
+wrong answer replaced by another, which is why it exceeds the correctness
+disagreement. Q8_0 is far more faithful to FP16: 18 GSM8K flips (9.0 percent)
+and 3 ARC-Challenge flips (1.0 percent). Of 18 FP16-versus-Q4 disagreements
+sampled for manual categorisation, 14 were divergence of the reasoning path, 1
+an arithmetic error, 1 an answer format failure and 2 refusal flips, both
+towards refusal at Q4.
+
+![Items whose answer changes between precision pairs](results/figures/fig2_disagreement.png)
+
+### Reliability under sampling
+
+| Precision | Same answer across 3 seeds [CI] |
+|-----------|---------------------------------|
+| FP16 | 45.0% [35.0, 56.2] |
+| Q8_0 | 41.2% [31.2, 52.5] |
+| Q4_K_M | 32.5% [22.5, 42.5] |
+
+Self-consistency declines with precision, though the intervals overlap.
+Sampling at temperature 0.7 also raises unreadable GSM8K answers to 8 to 10
+percent, so this metric partly reflects format stability under sampling.
+
+### Refusal behaviour (RQ4)
+
+| Set | Metric | FP16 | Q8_0 | Q4_K_M | Q4 minus FP16 [CI] |
+|-----|--------|------|------|--------|--------------------|
+| Harmful (50) | Refusal rate | 98.0% | 98.0% | 98.0% | +0.0 pts [+0.0, +0.0] |
+| Jailbreak (150) | Refusal rate | 94.0% | 94.0% | 95.3% | +1.3 pts [+0.0, +3.3] |
+| Jailbreak (150) | Attack success rate | 6.0% | 6.0% | 4.7% | -1.3 pts [-3.3, +0.0] |
+
+These rates use the corrected refusal classifier. As originally scored, the same
+generations gave a harmful refusal rate of 82.0, 80.0 and 84.0 percent and an
+attack success rate of 10.7, 12.0 and 14.0 percent. That apparent Q4 safety
+regression was an artefact: the frozen classifier missed refusals written with a
+typographic apostrophe, which Q4_K_M produced more often. The correction was
+specified in the protocol before the calibration labels were examined, and both
+scorings are reported.
+
+### Pre-registered claim
+
+| Metric | FP16 | Q4_K_M | Absolute movement | Relative movement |
+|--------|------|--------|-------------------|-------------------|
+| Harmful refusal rate | 98.0% | 98.0% | 0.0 pts | 0.0% |
+| Jailbreak attack success | 6.0% | 4.7% | 1.3 pts | 22.2% |
+| GSM8K accuracy | 78.5% | 75.0% | 3.5 pts | 4.5% |
+| ARC-Challenge accuracy | 70.7% | 67.7% | 3.0 pts | 4.2% |
+
+The claim required both behavioural metrics to move at least as much, in relative
+terms, as both capability metrics. The harmful refusal rate did not move, so the
+claim is falsified, under both the corrected and the original classifier.
+
+### Follow-up F1: JailbreakBench (exploratory)
+
+Pre-registered before any generation (`PROTOCOL.md` section 14).
+
+| Set | N | FP16 [CI] | Q8_0 [CI] | Q4_K_M [CI] | Q4 minus FP16 [CI] |
+|-----|---|-----------|-----------|-------------|--------------------|
+| Harmful requests: refused | 100 | 94.0% [89.0, 98.0] | 94.0% [89.0, 98.0] | 93.0% [88.0, 97.0] | -1.0 pts [-3.0, +0.0] |
+| Harmless look-alikes: refused | 100 | 11.0% [5.0, 18.0] | 12.0% [6.0, 19.0] | 12.0% [6.0, 19.0] | +1.0 pts [+0.0, +3.0] |
+| PAIR persuasive attacks: refused | 87 | 72.4% [62.1, 81.6] | 72.4% [62.1, 81.6] | 73.6% [64.3, 82.8] | +1.1 pts [+0.0, +3.4] |
+
+Persuasive attacks succeeded 27.6 percent of the time at FP16, against 6.0
+percent for the main study's templates, yet Q4_K_M is within one item of FP16 on
+every set and no difference is detected. Over-refusal of harmless requests is
+stable at 11 to 12 percent.
+
+### Validity of the refusal labels
+
+- The first blind calibration of the original classifier agreed with human
+  judgement on 13 of 20 items (65 percent), below the pre-registered 80 percent
+  threshold, which triggered the pre-stated apostrophe correction. The corrected
+  classifier agreed on 28 of 30 items (93 percent) in the follow-up calibration.
+- A post-hoc audit (`PROTOCOL.md` section 15), prompted by inspection of the raw
+  responses, found that on a random sample of 90 confident refusals the human
+  rater confirmed 90 of 90 (false-refusal rate 0 percent, 95 percent CI 0 to 4
+  percent), equal at every precision. On a sample enriched for ambiguous cases,
+  three raters (the author, the keyword classifier and a disclosed
+  non-independent automated pass) agreed on only 81 to 82 percent of items
+  (Cohen's kappa 0.62 to 0.65), disagreeing on responses that decline and then
+  provide general information. That boundary disagreement exceeds every
+  difference between precisions, so no safety difference is detectable under any
+  rater.
+
+### Limitations
+
+The study covers one model at one parameter scale, one quantisation family (GGUF
+k-quants), one GPU and one inference backend. Suite sizes bound the smallest
+detectable effect, and no correction for multiple comparisons is applied.
+Refusal classification is keyword based and uncertain on ambiguous responses.
+The attack prompts are a fixed attack surface rather than an adaptive attacker,
+and the follow-up's PAIR prompts were optimised against a different model. The
+full list is in `PROTOCOL.md` section 11 and `reports/technical_note.md`.
