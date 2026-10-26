@@ -89,7 +89,7 @@ Two further decisions do most of the methodological work:
 
 ```
 PROTOCOL.md         pre-registration: RQs, metrics, statistics, deviations, limitations
-CLAUDE.md           instructions for AI coding agents working in this repo
+PROVENANCE.md       private commit history behind this public copy
 configs/            all run configuration, YAML only, loaded with yaml.safe_load
 data/               fixed prompt sets committed to the repo
 src/                library code

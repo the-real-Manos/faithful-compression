@@ -208,8 +208,8 @@ attacks. Corrected classifier; 861 generations.
 
 ## 10. Integrity: problems found and fixed
 
-Each was recorded in the plan's issues ledger and, where it touched the protocol,
-in a dated amendment.
+Each was recorded in the private project plan's issues ledger and, where it
+touched the protocol, in a dated amendment.
 
 - **GPU memory parser counted host buffers** (critical). Would have overstated
   FP16 memory by 751 MB. Fixed and locked by a test built from the real log.
