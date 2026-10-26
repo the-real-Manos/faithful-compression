@@ -1048,43 +1048,7 @@ pip install -e ".[dev]"
 
 ---
 
-## 16. CLAUDE.md (include verbatim at repo root)
-
-```markdown
-# CLAUDE.md — Project instructions for AI coding agents
-
-## What this project is
-A quantisation faithfulness study. See PROTOCOL.md for research questions.
-
-## Hard rules
-- Never add CUDA, PyTorch, bitsandbytes, AutoGPTQ, AWQ or vLLM as dependencies
-- Never add argparse, click, typer or any CLI framework
-- Never add async/await, threading or multiprocessing
-- Never add Flask, FastAPI, Streamlit, Gradio or any web framework
-- Never add Docker, CI/CD or GitHub Actions configuration
-- Never branch eval logic on precision tier — precision differs only in model file path
-- All generation calls go through the Backend protocol in backends/types.py
-- All raw results are JSONL, all summaries are CSV
-- All configs are YAML loaded with yaml.safe_load()
-- All paths use pathlib.Path
-- All functions have type hints
-- Google-style docstrings, brief
-- Line length 99 (ruff)
-- Tests run with: pytest tests/
-
-## Key files
-- configs/model_primary.yaml — frozen model files and SHA256 hashes
-- PROTOCOL.md — pre-registered statistical methods (do not change after Phase 2)
-- results/raw/run_manifest.jsonl — append-only run log
-
-## Running
-Scripts are in scripts/ and run in order: 00 through 06.
-Each script loads its config from configs/ and writes to results/raw/.
-```
-
----
-
-## 17. Phased plan
+## 16. Phased plan
 
 ### Phase 0 — Charter and hardware (2-4 days)
 
@@ -1188,7 +1152,7 @@ Do not start stretch work before v1.0.0 is tagged.
 
 ---
 
-## 18. Reporting template
+## 17. Reporting template
 
 ### Table 1 — Systems
 
@@ -1239,7 +1203,7 @@ negative count.
 
 ---
 
-## 19. Definition of done
+## 18. Definition of done
 
 ### MVP done when
 
@@ -1264,7 +1228,7 @@ negative count.
 
 ---
 
-## 20. Risks and mitigations
+## 19. Risks and mitigations
 
 | Risk | Mitigation |
 |------|------------|
@@ -1280,7 +1244,7 @@ negative count.
 
 ---
 
-## 21. Anti-patterns (what Fable 5 must NOT do)
+## 20. Anti-patterns (what Fable 5 must NOT do)
 
 1. Do not add dependencies not listed in section 14
 2. Do not create a web interface, dashboard or interactive tool
