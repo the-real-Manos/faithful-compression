@@ -324,6 +324,12 @@ percent for the main study's templates, yet Q4_K_M is within one item of FP16 on
 every set and no difference is detected. Over-refusal of harmless requests is
 stable at 11 to 12 percent.
 
+## Conclusion
+
+Quantising Llama 3.2 3B to 4-bit made it 2.4x faster in 37% of the GPU memory, and average accuracy fell only 3 to 3.5 points, within noise. 
+Yet 23% of maths and 14% of science answers changed: the average hid the instability. Safety held: refusals stayed at 98%, and persuasive attacks worked equally at every precision. 
+The pre-registered claim was falsified, and a pre-stated calibration caught a scoring bug that would have faked a safety regression.
+
 ### Validity of the refusal labels
 
 - The first blind calibration of the original classifier agreed with human
